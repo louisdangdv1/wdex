@@ -26,7 +26,9 @@ export const INTERVALS = {
   '1m': ['c1m', 60],
   '5m': ['c1m', 300],
   '15m': ['c1m', 900],
+  '30m': ['c1m', 1800],
   '1h': ['c1m', 3600],
+  '2h': ['c1m', 7200],
   '4h': ['c1m', 14400],
 };
 
@@ -123,6 +125,7 @@ export function lastBar(arr, sec) {
 
 function pushCandle(arr, t, p, v, max) {
   const last = arr[arr.length - 1];
+  if (last && t < last.time) t = last.time; // never create a candle in the past
   if (last && last.time === t) {
     if (p > last.high) last.high = p;
     if (p < last.low) last.low = p;
@@ -212,6 +215,9 @@ class Exchange {
     }
     this.feed = 'connecting'; // connecting | live | offline
     this.lastMsg = 0;
+    this.gotLive = new Set(); // symbols that already received a live trade
+    this.clockOffset = 0; // exchange time - local time (ms)
+    this.clockSynced = false;
     this.version = 0;
     this.listeners = new Set();
     this.toasts = [];
@@ -254,7 +260,12 @@ class Exchange {
       m.c1s = genBack(last.close, Math.floor(Date.now() / 1000) - 1, 600, 1, 0.00015, MARKETS[sym].dp, MARKETS[sym].vol);
     }
     // if the WebSocket has no price yet, use the latest close
-    if (this.feed !== 'live') this.real[sym] = m.c1s[m.c1s.length - 1].close;
+    if (!this.gotLive.has(sym)) this.real[sym] = m.c1s[m.c1s.length - 1].close;
+    // align our clock with the exchange using the last candle (until the WebSocket syncs it)
+    if (!this.clockSynced) {
+      const lastT = m.c1s[m.c1s.length - 1].time * 1000;
+      if (lastT > Date.now() + this.clockOffset) this.clockOffset = lastT - Date.now();
+    }
     const np = roundTo(this.real[sym] * c.k, MARKETS[sym].dp);
     m.price = np;
     m.book = genBook(np, MARKETS[sym]);
@@ -282,7 +293,14 @@ class Exchange {
       const d = JSON.parse(e.data).data;
       if (d && d.s && this.real[d.s] !== undefined) {
         this.real[d.s] = +d.p;
+        this.gotLive.add(d.s);
         this.lastMsg = Date.now();
+        // keep our clock in sync with the exchange (local clocks can drift)
+        if (d.E) {
+          const off = d.E - Date.now();
+          this.clockOffset = this.clockSynced ? this.clockOffset * 0.95 + off * 0.05 : off;
+          this.clockSynced = true;
+        }
         if (this.feed !== 'live') {
           this.feed = 'live';
           this.toast('🌐 Connected to real-time prices', 'ok');
@@ -327,8 +345,13 @@ class Exchange {
   }
 
   // ================= PRICE SIMULATION =================
+  /** Current time in ms, corrected to the exchange clock */
+  now() {
+    return Date.now() + this.clockOffset;
+  }
+
   tick() {
-    const sec = Math.floor(Date.now() / 1000);
+    const sec = Math.floor(this.now() / 1000);
     for (const sym of SYMBOLS) {
       const c = this.ctrl[sym];
       const m = this.mk[sym];
@@ -437,7 +460,7 @@ class Exchange {
   applyNow(sym) {
     const cfg = MARKETS[sym];
     const np = Math.max(10 ** -cfg.dp, roundTo(this.real[sym] * this.ctrl[sym].k, cfg.dp));
-    this.setPrice(sym, np, Math.floor(Date.now() / 1000));
+    this.setPrice(sym, np, Math.floor(this.now() / 1000));
     this.process(sym);
     this.emit();
   }
@@ -472,7 +495,7 @@ class Exchange {
   }
 
   addHistory(h) {
-    this.acc.history.unshift({ id: this.acc.nextId++, time: Date.now(), ...h });
+    this.acc.history.unshift({ id: this.acc.nextId++, time: this.now(), ...h });
     if (this.acc.history.length > 500) this.acc.history.length = 500;
   }
 

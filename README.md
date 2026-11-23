@@ -18,10 +18,18 @@ target, pump/dump instantly, and snap back to the real price whenever you want.
 - Real candle history (≈33h of 1m candles, last ~16 min of 1s candles) from public Binance market data
 - Automatic fallback to a simulated feed when the connection drops, with auto-reconnect
 
-### Chart
-- Timeframes: 1s, 5s, 15s, 1m, 5m, 15m, 1h, 4h
-- Indicators: **MA** (7/25/99), **EMA** (12/26), **BOLL** (20, 2), volume toggle
+### Chart (TradingView-style)
+- Timeframes: 1s, 5s, 15s, 1m, 5m, 15m, 30m, 1h, 2h, 4h
+- Chart types: Candles, Hollow candles, Heikin Ashi, Bars, Line, Area, Baseline
+- **Indicators** menu
+  - Overlays: Volume, MA (7/25/99), EMA (12/26), Bollinger Bands, VWAP, Parabolic SAR, SuperTrend
+  - Oscillators in their own resizable panes: RSI, MACD, Stochastic, ATR
+- OHLC legend with change %, volume, indicator values and a candle-close countdown (follows the crosshair)
+- **Drawing tools**: horizontal line, trend line, Fibonacci retracement, undo, clear (saved per symbol)
+- Log scale, magnet crosshair, reset view, screenshot (PNG), fullscreen (Esc to exit)
+- Your buys / sells (B / S) and liquidations marked on the candles
 - Entry, liquidation, TP/SL, open orders and price alerts drawn on the chart
+- Chart clock is synced to the exchange so candles never go out of order
 
 ### Trading
 - **Market / Limit / Stop Market** orders, **Long / Short**, leverage **1–125x**

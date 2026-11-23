@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { createChart } from 'lightweight-charts';
+import { createChart, AreaSeries } from 'lightweight-charts';
 import { ex, START_BALANCE } from '../engine/exchange';
 import { fmt, cls } from '../utils';
 
@@ -95,7 +95,7 @@ function EquityChart() {
       rightPriceScale: { borderColor: '#242b3a' },
       timeScale: { borderColor: '#242b3a', timeVisible: true },
     });
-    const area = chart.addAreaSeries({
+    const area = chart.addSeries(AreaSeries, {
       lineColor: '#7c5cff', topColor: 'rgba(124,92,255,.35)', bottomColor: 'rgba(124,92,255,0)', lineWidth: 2,
     });
     area.createPriceLine({ price: START_BALANCE, color: '#8a93a6', lineStyle: 2, lineWidth: 1, title: 'Start' });

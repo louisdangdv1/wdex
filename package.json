@@ -10,7 +10,7 @@
     "deploy": "vite build && npx -y netlify-cli@latest deploy --dir dist --no-build --prod"
   },
   "dependencies": {
-    "lightweight-charts": "4.2.0",
+    "lightweight-charts": "5.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   },

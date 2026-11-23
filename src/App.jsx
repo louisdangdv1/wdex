@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { ex, INTERVALS, MARKETS } from './engine/exchange';
+import { ex, MARKETS } from './engine/exchange';
 import { useTick, fmt, fmtPct, fmtCompact, cls } from './utils';
 import Header from './components/Header';
-import Chart, { INDICATORS } from './components/Chart';
+import Chart from './components/Chart';
 import OrderBook from './components/OrderBook';
 import OrderForm from './components/OrderForm';
 import PriceControl from './components/PriceControl';
@@ -19,15 +19,12 @@ export default function App() {
   useTick();
   const [sym, setSym] = useState('BTCUSDT');
   const [iv, setIv] = useState('1m');
-  const [inds, setInds] = useState(['ma']);
-  const [showVol, setShowVol] = useState(true);
   const [picked, setPicked] = useState(null); // price clicked in the order book
 
   const m = ex.mk[sym];
   const cfg = MARKETS[sym];
   const st = ex.stats24(sym);
   const c = ex.ctrl[sym];
-  const toggleInd = (k) => setInds((v) => (v.includes(k) ? v.filter((x) => x !== k) : [...v, k]));
 
   const modeLabel = c.paused
     ? '⏸ Frozen'
@@ -56,21 +53,7 @@ export default function App() {
             />
             <Stat label="Price mode" value={modeLabel} />
           </div>
-          <div className="chart-toolbar">
-            {Object.keys(INTERVALS).map((k) => (
-              <button key={k} className={k === iv ? 'active' : ''} onClick={() => setIv(k)}>
-                {k}
-              </button>
-            ))}
-            <span className="tb-sep" />
-            {Object.entries(INDICATORS).map(([k, d]) => (
-              <button key={k} className={inds.includes(k) ? 'active ind' : 'ind'} onClick={() => toggleInd(k)}>
-                {d.label}
-              </button>
-            ))}
-            <button className={showVol ? 'active ind' : 'ind'} onClick={() => setShowVol((v) => !v)}>VOL</button>
-          </div>
-          <Chart sym={sym} iv={iv} inds={inds} showVol={showVol} />
+          <Chart sym={sym} iv={iv} setIv={setIv} />
         </section>
 
         <OrderBook sym={sym} onPick={(price) => setPicked({ price, n: Date.now() })} />
