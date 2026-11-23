@@ -29,7 +29,7 @@
 .mb-launch:hover { background: var(--gold); }
 
 /* ---------- desktop ---------- */
-.desktop { position: relative; height: calc(100vh - 34px); min-height: 760px; overflow: hidden; }
+.desktop { position: relative; height: calc(100vh - 70px); min-height: 760px; overflow: hidden; }
 .sky { position: absolute; inset: 0; background: linear-gradient(180deg, #160b45 0%, #1a2f5e 38%, #0e4a35 70%, #06140d 100%); }
 .stars { position: absolute; inset: 0 0 40% 0; background-image: radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent), radial-gradient(1px 1px at 120px 80px, #fff, transparent), radial-gradient(1.5px 1.5px at 220px 140px, #ffe9a8, transparent), radial-gradient(1px 1px at 300px 40px, #fff, transparent); background-size: 340px 200px; opacity: .7; animation: twinkle 4s ease-in-out infinite alternate; }
 @keyframes twinkle { to { opacity: .35; } }
@@ -50,7 +50,7 @@
 @keyframes fly1 { 0% { left: -5%; top: 40%; } 25% { top: 30%; } 50% { left: 50%; top: 45%; transform: scaleX(1); } 75% { top: 25%; } 100% { left: 105%; top: 38%; } }
 @keyframes fly2 { 0% { left: 105%; top: 22%; transform: scaleX(-1); } 50% { top: 35%; } 100% { left: -5%; top: 18%; transform: scaleX(-1); } }
 
-.desk-icons { position: absolute; left: 14px; top: 16px; z-index: 4; display: grid; grid-auto-flow: column; grid-template-rows: repeat(5, auto); gap: 6px; }
+.desk-icons { position: absolute; left: 14px; top: 16px; z-index: 4; display: grid; grid-auto-flow: column; grid-template-rows: repeat(6, auto); gap: 2px; }
 .desk-icon { width: 88px; background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #fff; cursor: pointer; }
 .desk-icon:hover { background: rgba(124, 252, 0, .15); border-color: rgba(124, 252, 0, .4); }
 .di-img { font-size: 34px; filter: drop-shadow(2px 3px 0 rgba(0, 0, 0, .5)); }

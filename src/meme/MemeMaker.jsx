@@ -110,6 +110,9 @@ export default function MemeMaker() {
     a.href = canvasRef.current.toDataURL('image/png');
     a.download = `wpepe-meme-${Date.now()}.png`;
     a.click();
+    try {
+      localStorage.setItem('wpepe.memeMade', '1');
+    } catch { /* ignore */ }
   };
   const random = () => {
     const p = PRESETS[Math.floor(Math.random() * PRESETS.length)];

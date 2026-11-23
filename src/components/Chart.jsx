@@ -134,6 +134,9 @@ function Chart({ sym, iv, setIv }) {
     window.addEventListener('keydown', onKey);
     return () => {
       window.removeEventListener('keydown', onKey);
+      // React cleans this effect before the data effect below on unmount,
+      // so flag the chart as gone and let that cleanup skip chart calls.
+      r.current.disposed = true;
       chart.remove();
     };
   }, []);
@@ -538,6 +541,11 @@ function Chart({ sym, iv, setIv }) {
     return () => {
       unsub();
       host.removeEventListener('click', onDomClick);
+      if (previewRaf) cancelAnimationFrame(previewRaf);
+      R.main = null;
+      R.renderDrawings = null;
+      R.cancelPending = null;
+      if (R.disposed) return; // chart already destroyed (component unmounting)
       chart.unsubscribeCrosshairMove(onMove);
       R.savedRange = chart.timeScale().getVisibleLogicalRange();
       R.lastKey = key;

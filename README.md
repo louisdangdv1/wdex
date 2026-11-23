@@ -17,12 +17,21 @@ practice again, and built the **Swamp Exchange**: real market prices, fake flies
 | Page | What's there |
 |---|---|
 | **FrogOS** `/` | Meme landing styled as a retro desktop: draggable windows, desktop icons, dock, live clock, frog assistant, sticky note, fireflies. Below: the 6-chapter comic lore, why-join stickers, tokenomics donut (concept), roadmap, how-to-join steps, **Meme Maker 3000** (PNG download), **Ribbit-o-meter** clicker with ranks, FAQ, community. Type `ribbit` anywhere for frog rain 🐸 |
+| **Airdrop** `/airdrop` | Allowlist: connect MetaMask, sign a free message (no gas), quests, live points / tier / estimated $WPEPE, referral link + share, daily Lily Wheel spin, live joins, referral leaderboard, countdown and community goal |
 | **Litepaper** `/whitepaper` | 10-section litepaper with sticky table of contents, embedded tokenomics and roadmap, print / save as PDF |
 | **Home** `/app` | Hero, live ticker, Hot / Top gainers / Top volume, market pulse (global market cap, BTC dominance, Fear & Greed), latest news, coin ↔ USDT/VND converter, announcements, academy preview |
 | **Markets** `/markets` | All pairs with 24h sparklines, sorting, favourites ⭐, gainers/losers, 30-day Fear & Greed history |
 | **Trade** `/trade/BTCUSDT` | The futures exchange (chart, order book, order form, price control, positions) |
 | **News** `/news` | Crypto headlines from CoinDesk, Cointelegraph, Decrypt, CryptoSlate and Bitcoin Magazine. Today / This week / All, daily digest, weekly stats, topic and source filters, search, auto-refresh every 5 min |
 | **Academy** `/learn` | Original guides: perpetuals, leverage, liquidation, funding, order types, TP/SL, candlesticks, indicators, risk management, news |
+
+### Wallet & airdrop
+
+- Wallet connection uses EIP-6963 (MetaMask preferred, works with other injected wallets) and `window.ethereum` as fallback; on mobile it offers a MetaMask app deep link.
+- Registrations go to the `airdrop` Netlify Function, which verifies the wallet signature (viem) and stores data in Netlify Blobs.
+- Campaign settings (end date, goal, points, quests, tiers, wheel prizes, social links) live in `src/airdrop/config.js`.
+- Export all registrations as CSV: set the `AIRDROP_ADMIN_KEY` environment variable on Netlify, redeploy, then open
+  `/.netlify/functions/airdrop?export=csv&key=YOUR_KEY`.
 
 News is collected by a Netlify Function (`netlify/functions/news.mjs`) because RSS feeds can't be read
 directly from the browser. In development, Vite serves the same function locally.

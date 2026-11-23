@@ -11,8 +11,12 @@ import News from './pages/News';
 import { Learn, Article } from './pages/Learn';
 import Landing from './meme/Landing';
 import Whitepaper from './meme/Whitepaper';
+import Airdrop from './airdrop/Airdrop';
+import ErrorBoundary from './components/ErrorBoundary';
+import { saveRefFromUrl } from './airdrop/api';
 
 const TITLES = {
+  '/airdrop': '🪂 $WPEPE Airdrop Allowlist',
   '/': 'WPEPE 🐸 The Wise Frog’s Swamp',
   '/app': 'WPEPE – Crypto Futures Trading',
   '/whitepaper': 'Litepaper · WPEPE',
@@ -24,6 +28,7 @@ const TITLES = {
 /** Scroll to top (or to #anchor) on navigation and set the page title */
 function RouteEffects() {
   const { pathname, hash } = useLocation();
+  useEffect(() => saveRefFromUrl(), [pathname]);
   useEffect(() => {
     if (hash) {
       const el = document.getElementById(hash.slice(1));
@@ -57,9 +62,11 @@ export default function App() {
     <>
       <RouteEffects />
       {!isLanding && <SiteHeader />}
+      <ErrorBoundary resetKey={pathname}>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/app" element={<Home />} />
+        <Route path="/airdrop" element={<Airdrop />} />
         <Route path="/whitepaper" element={<Whitepaper />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/trade" element={<Navigate to="/trade/BTCUSDT" replace />} />
@@ -69,6 +76,7 @@ export default function App() {
         <Route path="/learn/:slug" element={<Article />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </ErrorBoundary>
       {!pathname.startsWith('/trade') && !isLanding && <Footer />}
       <Toasts />
     </>

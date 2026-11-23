@@ -6,6 +6,8 @@ import { StoryComic, Tokenomics, Roadmap, Faq, RibbitClicker, croak } from './se
 import { MARQUEE, TAGLINES, TICKER } from './content';
 import { ex, SYMBOLS, MARKETS } from '../engine/exchange';
 import { fmt, fmtPct, cls } from '../utils';
+import WalletButton from '../wallet/WalletButton';
+import { AirdropBanner, RecentJoinToasts, AirdropWin, AirdropSection } from '../airdrop/fomo';
 
 // ---------------------------------------------------------------- window contents
 function HeroWin({ go }) {
@@ -65,6 +67,7 @@ function PricesWin() {
 
 const APPS = [
   { id: 'wpepe', title: 'WPEPE.exe', icon: '🐸', w: 560 },
+  { id: 'airdrop', title: 'airdrop.exe', icon: '🪂', w: 340 },
   { id: 'ribbit', title: 'ribbit.exe', icon: '🔊', w: 290 },
   { id: 'prices', title: 'swamp_prices.live', icon: '📈', w: 300 },
   { id: 'story', title: 'the_legend.txt', icon: '📜', w: 760 },
@@ -78,8 +81,9 @@ const APPS = [
   { id: 'academy', title: 'Frog Academy', icon: '🎓', link: '/learn' },
 ];
 const START = {
-  wpepe: { x: 215, y: 60 },
-  ribbit: { x: 800, y: 110 },
+  wpepe: { x: 215, y: 50 },
+  airdrop: { x: 800, y: 70 },
+  ribbit: { x: 560, y: 430 },
   prices: { x: 1100, y: 300 },
 };
 
@@ -90,6 +94,8 @@ const TIPS = [
   'Paper hands go to the trash. Diamond webs go to the moon.',
   'Funding is positive? Longs are paying shorts. Ribbit.',
   'Click me again and I’ll croak. I warned you.',
+  'The airdrop allowlist is open. Tadpoles who wait stay tadpoles. 🪂',
+  'Invite a fren, earn points. Two frogs croak louder than one.',
 ];
 
 // ---------------------------------------------------------------- window
@@ -165,8 +171,8 @@ function useFrogRain() {
 // ---------------------------------------------------------------- page
 export default function Landing() {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(['wpepe', 'ribbit', 'prices']);
-  const [order, setOrder] = useState(['prices', 'ribbit', 'wpepe']);
+  const [open, setOpen] = useState(['wpepe', 'airdrop', 'ribbit', 'prices']);
+  const [order, setOrder] = useState(['prices', 'ribbit', 'wpepe', 'airdrop']);
   const [pos, setPos] = useState(START);
   const [clock, setClock] = useState(new Date());
   const [tip, setTip] = useState(0);
@@ -200,6 +206,7 @@ export default function Landing() {
   const content = (id) => {
     switch (id) {
       case 'wpepe': return <HeroWin go={navigate} />;
+      case 'airdrop': return <AirdropWin />;
       case 'ribbit': return <RibbitClicker size={150} />;
       case 'prices': return <PricesWin />;
       case 'story': return <StoryComic compact />;
@@ -220,7 +227,7 @@ export default function Landing() {
       {rainLayer}
       {/* ---------- menu bar ---------- */}
       <div className="menubar">
-        <span className="mb-logo">🐸 WPEPE</span>
+        <Link to="/" className="mb-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>🐸 WPEPE</Link>
         <span className="mb-menu hide-sm">File</span>
         <span className="mb-menu hide-sm">Swamp</span>
         <span className="mb-menu hide-sm" onClick={rain}>Ribbit</span>
@@ -228,11 +235,14 @@ export default function Landing() {
         <a className="mb-menu hide-sm" href="#tokenomics">Tokenomics</a>
         <a className="mb-menu hide-sm" href="#roadmap">Roadmap</a>
         <Link className="mb-menu hide-sm" to="/whitepaper">Litepaper</Link>
+        <Link className="mb-menu mb-hot" to="/airdrop">🪂 Airdrop</Link>
         <span className="spacer" />
         <button className="mb-menu hide-sm" onClick={fullscreen}>⛶ Fullscreen</button>
         <span className="mb-clock">{clock.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} {clock.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</span>
-        <Link to="/app" className="mb-launch">Launch App →</Link>
+        <WalletButton variant="meme" />
+        <Link to="/app" className="mb-launch hide-sm">Launch App →</Link>
       </div>
+      <AirdropBanner variant="meme" />
 
       {/* ---------- desktop ---------- */}
       <section className="desktop">
@@ -271,6 +281,7 @@ export default function Landing() {
           <p>☑ learn what a stop loss is</p>
           <p>☐ stop 125x-ing the rent</p>
           <p>☐ reach the Moon Pond</p>
+          <p>☐ join the airdrop 🪂</p>
           <p>☐ type “ribbit” 🤫</p>
         </div>
 
@@ -318,6 +329,8 @@ export default function Landing() {
 
       {/* ---------- long meme page ---------- */}
       <Marquee />
+      <AirdropSection />
+      <Marquee reverse />
       <section id="legend" className="meme-section">
         <h2 className="meme-h2">📜 The Legend of WPEPE</h2>
         <p className="meme-sub">Six chapters. One frog. Zero stop losses (at first).</p>
@@ -375,7 +388,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className="meme-section">
+      <section id="meme" className="meme-section">
         <h2 className="meme-h2">🎨 Meme Maker 3000</h2>
         <p className="meme-sub">Make a WPEPE meme in 5 seconds. Download it. Spread the croak.</p>
         <div className="maker-row">
@@ -413,6 +426,7 @@ export default function Landing() {
         </div>
       </section>
 
+      <RecentJoinToasts />
       <footer className="meme-footer">
         <div className="stickers">
           <span className="stk s1">100% MEME</span>

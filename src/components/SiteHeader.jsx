@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ex } from '../engine/exchange';
 import { fmt, cls } from '../utils';
+import WalletButton from '../wallet/WalletButton';
 
 const NAV = [
   ['/app', 'Home'],
   ['/markets', 'Markets'],
   ['/trade/BTCUSDT', 'Trade'],
+  ['/airdrop', '🪂 Airdrop', 'LIVE'],
   ['/news', 'News'],
   ['/learn', 'Learn'],
   ['/whitepaper', 'Litepaper'],
-  ['/', '🐸 FrogOS'],
 ];
 
 export default function SiteHeader() {
@@ -27,22 +28,23 @@ export default function SiteHeader() {
 
       <button className="nav-toggle" onClick={() => setOpen((v) => !v)} aria-label="Menu">☰</button>
       <nav className={`site-nav ${open ? 'open' : ''}`}>
-        {NAV.map(([to, label]) => (
-          <NavLink key={to} to={to} className={isActive(to) ? 'active' : ''} onClick={() => setOpen(false)}>
+        {NAV.map(([to, label, badge]) => (
+          <NavLink key={to} to={to} className={`${isActive(to) ? 'active' : ''} ${badge ? 'hot' : ''}`} onClick={() => setOpen(false)}>
             {label}
+            {badge && <span className="nav-badge">{badge}</span>}
           </NavLink>
         ))}
       </nav>
 
       <div className="account-box">
-        <span className={`feed ${ex.feed}`}>
-          ● {ex.feed === 'live' ? 'Live prices' : ex.feed === 'connecting' ? 'Connecting…' : 'Offline (simulated)'}
+        <span className={`feed hide-md ${ex.feed}`} title={ex.feed === 'live' ? 'Live prices' : ex.feed === 'connecting' ? 'Connecting…' : 'Offline (simulated)'}>
+          ● {ex.feed === 'live' ? 'Live' : ex.feed === 'connecting' ? '…' : 'Offline'}
         </span>
         <div className="acc-stat">
           <label>Equity</label>
           <b>{fmt(equity)} USDT</b>
         </div>
-        <div className="acc-stat hide-sm">
+        <div className="acc-stat hide-md">
           <label>Unrealized PnL</label>
           <b className={cls(upnl)}>
             {upnl >= 0 ? '+' : ''}
@@ -52,9 +54,10 @@ export default function SiteHeader() {
         <button className="btn ghost icon-btn" onClick={() => ex.setSound(!ex.sound)} title={ex.sound ? 'Mute sounds' : 'Enable sounds'}>
           {ex.sound ? '🔊' : '🔇'}
         </button>
-        <button className="btn ghost" onClick={() => ex.faucet()} title="Get 10,000 more demo USDT">
+        <button className="btn ghost hide-sm" onClick={() => ex.faucet()} title="Get 10,000 more demo USDT">
           + Deposit
         </button>
+        <WalletButton />
       </div>
     </header>
   );

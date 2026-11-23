@@ -10,10 +10,12 @@
     "deploy": "vite build && npx -y netlify-cli@latest deploy --dir dist --functions netlify/functions --no-build --prod"
   },
   "dependencies": {
+    "@netlify/blobs": "8.2.0",
     "lightweight-charts": "5.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.28.0"
+    "react-router-dom": "6.28.0",
+    "viem": "2.21.54"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "4.3.4",

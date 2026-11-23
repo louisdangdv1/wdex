@@ -5,6 +5,7 @@ import { fmt, fmtPct, cls } from '../utils';
 import { CoinIcon, CoinRow, FearGreedGauge, NewsCard, Section, Sparkline, fmtShort } from '../components/common';
 import Converter from '../components/Converter';
 import { ARTICLES } from '../data/learn';
+import { AirdropBanner } from '../airdrop/fomo';
 
 const HOT = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT'];
 
@@ -39,6 +40,7 @@ export default function Home() {
 
   return (
     <div className="page home">
+      <AirdropBanner />
       {/* ---------- hero ---------- */}
       <section className="hero">
         <div className="hero-text">
