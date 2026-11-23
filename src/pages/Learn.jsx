@@ -8,7 +8,7 @@ export function Learn() {
   return (
     <div className="page">
       <section className="learn-hero">
-        <h1>WDex Academy</h1>
+        <h1>WPEPE Academy</h1>
         <p className="muted">
           Short, practical guides about crypto futures. Read one, then try it right away on the demo exchange.
         </p>
@@ -60,7 +60,7 @@ export function Article() {
           ),
         )}
         <div className="article-cta">
-          <Link to="/trade/BTCUSDT" className="btn primary">Practice on WDex →</Link>
+          <Link to="/trade/BTCUSDT" className="btn primary">Practice on WPEPE →</Link>
           <Link to={`/learn/${next.slug}`} className="btn ghost">Next: {next.title}</Link>
         </div>
       </article>

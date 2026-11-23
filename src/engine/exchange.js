@@ -1,5 +1,5 @@
 // =====================================================================
-//  WDex engine: controllable price simulator + futures matching
+//  WPEPE engine: controllable price simulator + futures matching
 //  (isolated margin, one-way mode, market/limit/stop, TP/SL, liquidation)
 // =====================================================================
 

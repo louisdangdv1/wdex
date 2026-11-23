@@ -9,12 +9,16 @@ import Markets from './pages/Markets';
 import Trade from './pages/Trade';
 import News from './pages/News';
 import { Learn, Article } from './pages/Learn';
+import Landing from './meme/Landing';
+import Whitepaper from './meme/Whitepaper';
 
 const TITLES = {
-  '/': 'WDex – Crypto Futures Trading',
-  '/markets': 'Markets · WDex',
-  '/news': 'Crypto News · WDex',
-  '/learn': 'Academy · WDex',
+  '/': 'WPEPE 🐸 The Wise Frog’s Swamp',
+  '/app': 'WPEPE – Crypto Futures Trading',
+  '/whitepaper': 'Litepaper · WPEPE',
+  '/markets': 'Markets · WPEPE',
+  '/news': 'Crypto News · WPEPE',
+  '/learn': 'Academy · WPEPE',
 };
 
 /** Scroll to top (or to #anchor) on navigation and set the page title */
@@ -29,8 +33,8 @@ function RouteEffects() {
   }, [pathname, hash]);
   useEffect(() => {
     document.title = pathname.startsWith('/trade/')
-      ? `${pathname.split('/')[2]} · WDex Futures`
-      : TITLES[pathname] || (pathname.startsWith('/learn/') ? 'Academy · WDex' : 'WDex');
+      ? `${pathname.split('/')[2]} · WPEPE Futures`
+      : TITLES[pathname] || (pathname.startsWith('/learn/') ? 'Academy · WPEPE' : 'WPEPE');
   }, [pathname]);
   return null;
 }
@@ -48,12 +52,15 @@ function NotFound() {
 export default function App() {
   useTick();
   const { pathname } = useLocation();
+  const isLanding = pathname === '/';
   return (
     <>
       <RouteEffects />
-      <SiteHeader />
+      {!isLanding && <SiteHeader />}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/app" element={<Home />} />
+        <Route path="/whitepaper" element={<Whitepaper />} />
         <Route path="/markets" element={<Markets />} />
         <Route path="/trade" element={<Navigate to="/trade/BTCUSDT" replace />} />
         <Route path="/trade/:sym" element={<Trade />} />
@@ -62,7 +69,7 @@ export default function App() {
         <Route path="/learn/:slug" element={<Article />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!pathname.startsWith('/trade') && <Footer />}
+      {!pathname.startsWith('/trade') && !isLanding && <Footer />}
       <Toasts />
     </>
   );

@@ -64,7 +64,7 @@ export default function Markets() {
       <div className="page-head">
         <div>
           <h1>Markets</h1>
-          <p className="muted">Live prices of every perpetual on WDex, plus the global crypto market.</p>
+          <p className="muted">Live prices of every perpetual on WPEPE, plus the global crypto market.</p>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ export default function Markets() {
           <b>{g ? `${g.btcDom.toFixed(1)}% / ${g.ethDom.toFixed(1)}%` : '–'}</b>
         </div>
         <div className="stat-card">
-          <label>WDex markets up / down</label>
+          <label>WPEPE markets up / down</label>
           <b><span className="up">{up}</span> / <span className="down">{SYMBOLS.length - up}</span></b>
         </div>
         <div className="stat-card">
@@ -184,7 +184,7 @@ export default function Markets() {
         <div className="card">
           <div className="card-title">How to read this page</div>
           <ul className="plain-list">
-            <li>Prices and 24h stats come from the WDex exchange and follow the live market.</li>
+            <li>Prices and 24h stats come from the WPEPE exchange and follow the live market.</li>
             <li>Click a column header to sort; click a row to open the trading screen.</li>
             <li>Use ☆ to build a favourites list. It is saved in your browser.</li>
             <li>Global market cap and dominance come from CoinGecko and refresh every 2 minutes.</li>

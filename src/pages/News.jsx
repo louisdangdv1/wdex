@@ -213,7 +213,7 @@ export default function News() {
             {fng.data?.[0] ? <FearGreedGauge value={fng.data[0].value} label={fng.data[0].label} size={170} /> : <div className="muted">Loading…</div>}
           </div>
           <div className="card">
-            <div className="card-title">Biggest movers on WDex</div>
+            <div className="card-title">Biggest movers on WPEPE</div>
             {movers.map((s) => (
               <Link key={s} to={`/trade/${s}`} className="coin-row">
                 <CoinIcon base={MARKETS[s].base} />

@@ -1,4 +1,4 @@
-// WDex Academy: short original guides. Each block is a heading, a paragraph or a list.
+// WPEPE Academy: short original guides. Each block is a heading, a paragraph or a list.
 export const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
 export const ARTICLES = [
@@ -19,7 +19,7 @@ export const ARTICLES = [
       ]],
       ['h', 'How does the price stay close to the real market?'],
       ['p', 'Because a perp never settles, exchanges use a funding rate: a small payment exchanged between longs and shorts every few hours. When the perp trades above the market, longs pay shorts, which pulls the price back down, and vice versa.'],
-      ['h', 'Try it on WDex'],
+      ['h', 'Try it on WPEPE'],
       ['p', 'Open the Trade page, choose BTCUSDT, enter a size in USDT and press Buy / Long. Watch the PnL change in the Positions tab as the price moves.'],
     ],
   },
@@ -40,7 +40,7 @@ export const ARTICLES = [
         'If the price falls 2%, you lose 20 USDT, which is −20% on your margin.',
       ]],
       ['h', 'Isolated margin'],
-      ['p', 'WDex uses isolated margin: each position only risks the margin assigned to it. You can add margin to move the liquidation price further away, or remove margin to free up balance.'],
+      ['p', 'WPEPE uses isolated margin: each position only risks the margin assigned to it. You can add margin to move the liquidation price further away, or remove margin to free up balance.'],
       ['h', 'Rule of thumb'],
       ['p', 'Higher leverage does not mean higher profit. It means a smaller price move can wipe out your margin. Many experienced traders rarely go above 5–10x.'],
     ],
@@ -55,7 +55,7 @@ export const ARTICLES = [
     body: [
       ['p', 'When losses eat almost all of your margin, the exchange closes your position automatically. This is liquidation, and you lose the margin of that position.'],
       ['h', 'The liquidation price'],
-      ['p', 'Before you open a trade, WDex shows an estimated liquidation price for both Long and Short. On the chart it appears as a yellow “Liq.” line. With 20x leverage it is roughly 5% away from your entry, and with 100x only about 1%.'],
+      ['p', 'Before you open a trade, WPEPE shows an estimated liquidation price for both Long and Short. On the chart it appears as a yellow “Liq.” line. With 20x leverage it is roughly 5% away from your entry, and with 100x only about 1%.'],
       ['h', 'How to stay safe'],
       ['ul', [
         'Use lower leverage so normal price swings don’t reach your liquidation price.',
@@ -73,7 +73,7 @@ export const ARTICLES = [
     icon: '💸',
     summary: 'The small fee that longs and shorts pay each other every 8 hours.',
     body: [
-      ['p', 'The funding rate keeps the perpetual price anchored to the real market. On WDex it is settled every 8 hours, at 00:00, 08:00 and 16:00 UTC. You can see the countdown above the chart.'],
+      ['p', 'The funding rate keeps the perpetual price anchored to the real market. On WPEPE it is settled every 8 hours, at 00:00, 08:00 and 16:00 UTC. You can see the countdown above the chart.'],
       ['ul', [
         'Positive rate: longs pay shorts. The market is crowded with buyers.',
         'Negative rate: shorts pay longs. The market is crowded with sellers.',
@@ -91,7 +91,7 @@ export const ARTICLES = [
     summary: 'Pick the right order type for entries, exits and protection.',
     body: [
       ['h', 'Market order'],
-      ['p', 'Fills immediately at the current price. Use it when speed matters more than the exact price. It pays the taker fee (0.05% on WDex).'],
+      ['p', 'Fills immediately at the current price. Use it when speed matters more than the exact price. It pays the taker fee (0.05% on WPEPE).'],
       ['h', 'Limit order'],
       ['p', 'Waits until the price reaches your level, for example “buy BTC at 60,000”. It can give you a better price but may never fill. It pays the lower maker fee (0.02%). Tip: click a price in the order book to fill the limit price.'],
       ['h', 'Stop Market order'],
@@ -126,7 +126,7 @@ export const ARTICLES = [
     icon: '🕯️',
     summary: 'Open, high, low, close, and what a candle tells you about buyers and sellers.',
     body: [
-      ['p', 'Each candle shows four prices for one time period: Open, High, Low and Close (OHLC). The legend at the top of the WDex chart shows these values for the candle under your mouse.'],
+      ['p', 'Each candle shows four prices for one time period: Open, High, Low and Close (OHLC). The legend at the top of the WPEPE chart shows these values for the candle under your mouse.'],
       ['ul', [
         'Green candle: the close is higher than the open (buyers won the period).',
         'Red candle: the close is lower than the open (sellers won).',
@@ -152,7 +152,7 @@ export const ARTICLES = [
       ['p', 'The Relative Strength Index moves between 0 and 100. Above 70 the market is often called overbought; below 30, oversold. In strong trends RSI can stay extreme for a long time, so combine it with other signals.'],
       ['h', 'MACD'],
       ['p', 'MACD compares two EMAs. When the MACD line crosses above the signal line and the histogram turns green, momentum is turning up. Crossing below means momentum is fading.'],
-      ['h', 'Add them on WDex'],
+      ['h', 'Add them on WPEPE'],
       ['p', 'Open the ƒx Indicators menu above the chart. Overlays (MA, EMA, BOLL, VWAP, SAR, SuperTrend) draw on the price; oscillators (RSI, MACD, Stoch, ATR) get their own pane.'],
     ],
   },
@@ -186,7 +186,7 @@ export const ARTICLES = [
     icon: '📰',
     summary: 'Which headlines matter, and why “buy the rumour, sell the news” happens.',
     body: [
-      ['p', 'Crypto reacts quickly to news. The WDex News page gathers headlines from major crypto publishers and refreshes them automatically.'],
+      ['p', 'Crypto reacts quickly to news. The WPEPE News page gathers headlines from major crypto publishers and refreshes them automatically.'],
       ['ul', [
         'Regulation: lawsuits, approvals and new laws can move the whole market.',
         'Macro: interest rates and inflation data affect risk assets, including crypto.',

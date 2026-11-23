@@ -4,11 +4,13 @@ import { ex } from '../engine/exchange';
 import { fmt, cls } from '../utils';
 
 const NAV = [
-  ['/', 'Home'],
+  ['/app', 'Home'],
   ['/markets', 'Markets'],
   ['/trade/BTCUSDT', 'Trade'],
   ['/news', 'News'],
   ['/learn', 'Learn'],
+  ['/whitepaper', 'Litepaper'],
+  ['/', '🐸 FrogOS'],
 ];
 
 export default function SiteHeader() {
@@ -20,7 +22,7 @@ export default function SiteHeader() {
   return (
     <header className="topbar site-header">
       <Link to="/" className="logo" onClick={() => setOpen(false)}>
-        ⚡ W<span>Dex</span>
+        🐸 W<span>PEPE</span>
       </Link>
 
       <button className="nav-toggle" onClick={() => setOpen((v) => !v)} aria-label="Menu">☰</button>

@@ -63,7 +63,7 @@ export default function Converter() {
         1 {from} ≈ {unit.toLocaleString('en-US', { maximumFractionDigits: to === 'VND' ? 0 : 8 })} {to}
         {to === 'VND' && ` · USD/VND ${Math.round(usdVnd).toLocaleString('en-US')}`}
       </div>
-      <p className="muted small-text">Prices follow the WDex exchange · {FIATS.map(([c, n]) => `${c}: ${n}`).join(' · ')}</p>
+      <p className="muted small-text">Prices follow the WPEPE exchange · {FIATS.map(([c, n]) => `${c}: ${n}`).join(' · ')}</p>
     </div>
   );
 }

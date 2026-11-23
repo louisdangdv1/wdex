@@ -220,7 +220,7 @@ function Chart({ sym, iv, setIv }) {
       vertAlign: 'center',
       lines: [
         { text: sym, color: 'rgba(138,147,166,0.07)', fontSize: 64, fontStyle: 'bold' },
-        { text: `${iv} · WDex`, color: 'rgba(138,147,166,0.07)', fontSize: 22 },
+        { text: `${iv} · WPEPE`, color: 'rgba(138,147,166,0.07)', fontSize: 22 },
       ],
     });
     const markers = createSeriesMarkers(main, []);
@@ -278,7 +278,7 @@ function Chart({ sym, iv, setIv }) {
         ? `${Math.floor(remain / 3600)}:${String(Math.floor((remain % 3600) / 60)).padStart(2, '0')}:${String(remain % 60).padStart(2, '0')}`
         : `${String(Math.floor(remain / 60)).padStart(2, '0')}:${String(remain % 60).padStart(2, '0')}`;
       let html =
-        `<div class="lg-row lg-main"><b>${sym}</b><span class="muted">· ${iv} · WDex</span>` +
+        `<div class="lg-row lg-main"><b>${sym}</b><span class="muted">· ${iv} · WPEPE</span>` +
         `<span><i>O</i><em class="${c}">${fp(b.open)}</em></span>` +
         `<span><i>H</i><em class="${c}">${fp(b.high)}</em></span>` +
         `<span><i>L</i><em class="${c}">${fp(b.low)}</em></span>` +

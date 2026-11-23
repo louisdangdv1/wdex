@@ -1,13 +1,14 @@
-# ⚡ WDex – Perpetual Futures Trading
+# 🐸 WPEPE – The Wise Frog’s Swamp
 
-**🌐 Live demo: [https://wdex-841.netlify.app](https://wdex-841.netlify.app)**
+**🌐 Live: [https://wdex-841.netlify.app](https://wdex-841.netlify.app)**
 
-WDex is a perpetual-futures trading web app that runs on **demo funds**. Prices stream from the real
-market in real time, and a built-in **Price Control** panel lets you push the price up or down, set a
-target, pump/dump instantly, and snap back to the real price whenever you want.
+WPEPE is a meme-powered practice swamp for crypto futures. Once upon a time, a frog named Wally leaped
+onto a 125x long and landed face-first in the mud. He vowed no tadpole would ever get rekt without
+practice again, and built the **Swamp Exchange**: real market prices, fake flies (demo USDT), zero rekt.
 
-> ⚠️ Demo / educational project only. No real money, no wallet, no blockchain transactions.
-> Every visitor gets their own demo account stored in their browser.
+> ⚠️ Educational meme project. All balances are demo funds. **$WPEPE is a concept: no token has been issued,
+> there is no contract address and nothing is for sale.** Never send money to anyone claiming otherwise.
+> The WPEPE frog is an original character.
 
 ---
 
@@ -15,7 +16,9 @@ target, pump/dump instantly, and snap back to the real price whenever you want.
 
 | Page | What's there |
 |---|---|
-| **Home** `/` | Hero, live ticker, Hot / Top gainers / Top volume, market pulse (global market cap, BTC dominance, Fear & Greed), latest news, coin ↔ USDT/VND converter, announcements, academy preview |
+| **FrogOS** `/` | Meme landing styled as a retro desktop: draggable windows, desktop icons, dock, live clock, frog assistant, sticky note, fireflies. Below: the 6-chapter comic lore, why-join stickers, tokenomics donut (concept), roadmap, how-to-join steps, **Meme Maker 3000** (PNG download), **Ribbit-o-meter** clicker with ranks, FAQ, community. Type `ribbit` anywhere for frog rain 🐸 |
+| **Litepaper** `/whitepaper` | 10-section litepaper with sticky table of contents, embedded tokenomics and roadmap, print / save as PDF |
+| **Home** `/app` | Hero, live ticker, Hot / Top gainers / Top volume, market pulse (global market cap, BTC dominance, Fear & Greed), latest news, coin ↔ USDT/VND converter, announcements, academy preview |
 | **Markets** `/markets` | All pairs with 24h sparklines, sorting, favourites ⭐, gainers/losers, 30-day Fear & Greed history |
 | **Trade** `/trade/BTCUSDT` | The futures exchange (chart, order book, order form, price control, positions) |
 | **News** `/news` | Crypto headlines from CoinDesk, Cointelegraph, Decrypt, CryptoSlate and Bitcoin Magazine. Today / This week / All, daily digest, weekly stats, topic and source filters, search, auto-refresh every 5 min |

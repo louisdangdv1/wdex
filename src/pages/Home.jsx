@@ -153,7 +153,7 @@ export default function Home() {
       </div>
 
       {/* ---------- features ---------- */}
-      <Section title="Why WDex">
+      <Section title="Why WPEPE">
         <div className="feature-grid">
           {FEATURES.map(([icon, title, text]) => (
             <div key={title} className="card feature">
@@ -166,7 +166,7 @@ export default function Home() {
       </Section>
 
       {/* ---------- academy ---------- */}
-      <Section title="WDex Academy" link="/learn" linkText="All guides →">
+      <Section title="WPEPE Academy" link="/learn" linkText="All guides →">
         <div className="learn-grid">
           {ARTICLES.slice(0, 4).map((a) => (
             <Link key={a.slug} to={`/learn/${a.slug}`} className="card learn-card">

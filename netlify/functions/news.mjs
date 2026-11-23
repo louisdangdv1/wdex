@@ -66,7 +66,7 @@ function parseItem(xml, source) {
 
 async function fetchFeed({ source, url }) {
   const res = await fetch(url, {
-    headers: { 'User-Agent': 'WDexNewsBot/1.0 (+https://wdex-841.netlify.app)', Accept: 'application/rss+xml, application/xml, text/xml' },
+    headers: { 'User-Agent': 'WPEPENewsBot/1.0 (+https://wdex-841.netlify.app)', Accept: 'application/rss+xml, application/xml, text/xml' },
     redirect: 'follow',
     signal: AbortSignal.timeout(9000),
   });

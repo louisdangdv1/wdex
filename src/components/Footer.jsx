@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="footer-cols">
         <div className="footer-brand">
-          <div className="logo">⚡ W<span>Dex</span></div>
+          <div className="logo">🐸 W<span>PEPE</span></div>
           <p className="muted">
             A perpetual-futures trading playground with real-time market prices and demo funds.
             Practice strategies without risking real money.
@@ -15,7 +15,9 @@ export default function Footer() {
           <h4>Products</h4>
           <Link to="/trade/BTCUSDT">Futures trading</Link>
           <Link to="/markets">Markets</Link>
-          <Link to="/#converter">Converter</Link>
+          <Link to="/app#converter">Converter</Link>
+          <Link to="/whitepaper">Litepaper</Link>
+          <Link to="/">FrogOS</Link>
         </div>
         <div>
           <h4>Learn</h4>
@@ -31,7 +33,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} WDex · Demo platform</span>
+        <span>© {new Date().getFullYear()} WPEPE · Demo platform</span>
         <span className="muted">
           Not financial advice. All balances are virtual. News belongs to the linked publishers.
         </span>
