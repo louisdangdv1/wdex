@@ -11,6 +11,19 @@ target, pump/dump instantly, and snap back to the real price whenever you want.
 
 ---
 
+## 🗺 Pages
+
+| Page | What's there |
+|---|---|
+| **Home** `/` | Hero, live ticker, Hot / Top gainers / Top volume, market pulse (global market cap, BTC dominance, Fear & Greed), latest news, coin ↔ USDT/VND converter, announcements, academy preview |
+| **Markets** `/markets` | All pairs with 24h sparklines, sorting, favourites ⭐, gainers/losers, 30-day Fear & Greed history |
+| **Trade** `/trade/BTCUSDT` | The futures exchange (chart, order book, order form, price control, positions) |
+| **News** `/news` | Crypto headlines from CoinDesk, Cointelegraph, Decrypt, CryptoSlate and Bitcoin Magazine. Today / This week / All, daily digest, weekly stats, topic and source filters, search, auto-refresh every 5 min |
+| **Academy** `/learn` | Original guides: perpetuals, leverage, liquidation, funding, order types, TP/SL, candlesticks, indicators, risk management, news |
+
+News is collected by a Netlify Function (`netlify/functions/news.mjs`) because RSS feeds can't be read
+directly from the browser. In development, Vite serves the same function locally.
+
 ## ✨ Features
 
 ### Market data

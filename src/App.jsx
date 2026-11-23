@@ -1,80 +1,69 @@
-import { useState } from 'react';
-import { ex, MARKETS } from './engine/exchange';
-import { useTick, fmt, fmtPct, fmtCompact, cls } from './utils';
-import Header from './components/Header';
-import Chart from './components/Chart';
-import OrderBook from './components/OrderBook';
-import OrderForm from './components/OrderForm';
-import PriceControl from './components/PriceControl';
-import BottomTabs from './components/BottomTabs';
+import { useEffect } from 'react';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { useTick } from './utils';
+import SiteHeader from './components/SiteHeader';
+import Footer from './components/Footer';
 import Toasts from './components/Toasts';
+import Home from './pages/Home';
+import Markets from './pages/Markets';
+import Trade from './pages/Trade';
+import News from './pages/News';
+import { Learn, Article } from './pages/Learn';
 
-const pad = (n) => String(n).padStart(2, '0');
-const countdown = (ms) => {
-  const s = Math.max(0, Math.floor(ms / 1000));
-  return `${pad(Math.floor(s / 3600))}:${pad(Math.floor((s % 3600) / 60))}:${pad(s % 60)}`;
+const TITLES = {
+  '/': 'WDex – Crypto Futures Trading',
+  '/markets': 'Markets · WDex',
+  '/news': 'Crypto News · WDex',
+  '/learn': 'Academy · WDex',
 };
 
-export default function App() {
-  useTick();
-  const [sym, setSym] = useState('BTCUSDT');
-  const [iv, setIv] = useState('1m');
-  const [picked, setPicked] = useState(null); // price clicked in the order book
+/** Scroll to top (or to #anchor) on navigation and set the page title */
+function RouteEffects() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) return el.scrollIntoView({ behavior: 'smooth' });
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  useEffect(() => {
+    document.title = pathname.startsWith('/trade/')
+      ? `${pathname.split('/')[2]} · WDex Futures`
+      : TITLES[pathname] || (pathname.startsWith('/learn/') ? 'Academy · WDex' : 'WDex');
+  }, [pathname]);
+  return null;
+}
 
-  const m = ex.mk[sym];
-  const cfg = MARKETS[sym];
-  const st = ex.stats24(sym);
-  const c = ex.ctrl[sym];
-
-  const modeLabel = c.paused
-    ? '⏸ Frozen'
-    : c.mode === 'live' && Math.abs(c.k - 1) > 1e-6
-      ? `🌐 Real price (offset ${((c.k - 1) * 100).toFixed(2)}%)`
-      : { live: '🌐 Real price', up: '📈 Uptrend', down: '📉 Downtrend', target: '🎯 Target', revert: '↩ Returning to real' }[c.mode];
-
+function NotFound() {
   return (
-    <>
-      <Header sym={sym} setSym={setSym} />
-      <main className="layout">
-        <section className="panel chart-panel">
-          <div className="sym-bar">
-            <div className="sym-name">
-              {sym} <small>Perpetual</small>
-            </div>
-            <div className={`sym-price ${m.dir > 0 ? 'up' : 'down'}`}>{fmt(m.price, cfg.dp)}</div>
-            <Stat label="24h Change" value={fmtPct(st.change)} className={cls(st.change)} />
-            <Stat label="24h High" value={fmt(st.high, cfg.dp)} />
-            <Stat label="24h Low" value={fmt(st.low, cfg.dp)} />
-            <Stat label="24h Vol (USDT)" value={fmtCompact(st.volume)} />
-            <Stat
-              label="Funding / Countdown"
-              value={`${c.funding.toFixed(4)}% / ${countdown(ex.nextFunding - Date.now())}`}
-              className={c.funding >= 0 ? 'warn' : 'up'}
-            />
-            <Stat label="Price mode" value={modeLabel} />
-          </div>
-          <Chart sym={sym} iv={iv} setIv={setIv} />
-        </section>
-
-        <OrderBook sym={sym} onPick={(price) => setPicked({ price, n: Date.now() })} />
-
-        <div className="side-col">
-          <OrderForm sym={sym} picked={picked} />
-          <PriceControl sym={sym} />
-        </div>
-
-        <BottomTabs sym={sym} setSym={setSym} />
-      </main>
-      <Toasts />
-    </>
+    <div className="page center not-found">
+      <h1>404</h1>
+      <p className="muted">This page doesn’t exist.</p>
+      <Link to="/" className="btn primary">Back to home</Link>
+    </div>
   );
 }
 
-function Stat({ label, value, className = '' }) {
+export default function App() {
+  useTick();
+  const { pathname } = useLocation();
   return (
-    <div className="stat">
-      <label>{label}</label>
-      <span className={className}>{value}</span>
-    </div>
+    <>
+      <RouteEffects />
+      <SiteHeader />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/markets" element={<Markets />} />
+        <Route path="/trade" element={<Navigate to="/trade/BTCUSDT" replace />} />
+        <Route path="/trade/:sym" element={<Trade />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/learn" element={<Learn />} />
+        <Route path="/learn/:slug" element={<Article />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+      {!pathname.startsWith('/trade') && <Footer />}
+      <Toasts />
+    </>
   );
 }
