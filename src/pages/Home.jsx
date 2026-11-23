@@ -22,7 +22,7 @@ const FEATURES = [
   ['🧪', 'Risk-free practice', 'Start with 10,000 demo USDT. Top up any time, reset whenever you want.'],
   ['⚡', 'Up to 125x leverage', 'Market, Limit and Stop orders with TP/SL, reduce-only and isolated margin.'],
   ['📊', 'Pro charting', 'Candles to Heikin Ashi, RSI, MACD, SuperTrend, Fibonacci and more.'],
-  ['🎛', 'Price control lab', 'Push the price, set targets or create wicks to rehearse any scenario.'],
+  ['🏆', 'Airdrop & quests', 'Join the $WPEPE allowlist, finish quests, invite frens and spin the daily wheel.'],
   ['📰', 'News & Academy', 'Daily crypto headlines and clear guides from first trade to risk management.'],
 ];
 

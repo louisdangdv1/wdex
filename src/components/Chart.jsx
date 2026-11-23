@@ -223,7 +223,7 @@ function Chart({ sym, iv, setIv }) {
       vertAlign: 'center',
       lines: [
         { text: sym, color: 'rgba(138,147,166,0.07)', fontSize: 64, fontStyle: 'bold' },
-        { text: `${iv} · WPEPE`, color: 'rgba(138,147,166,0.07)', fontSize: 22 },
+        { text: `${iv} · WPEPE DEMO`, color: 'rgba(138,147,166,0.07)', fontSize: 22 },
       ],
     });
     const markers = createSeriesMarkers(main, []);

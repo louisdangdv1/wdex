@@ -77,6 +77,7 @@ export default function OrderForm({ sym, picked }) {
   return (
     <section className="panel order-form">
       <div className="margin-mode">
+        <span className="chip demo-chip">DEMO</span>
         <span className="chip">Isolated</span>
         <span className="chip">{lev}x</span>
         <span className="chip muted">One-way</span>
@@ -98,7 +99,7 @@ export default function OrderForm({ sym, picked }) {
       </div>
 
       <div className="avail">
-        Available: <b>{fmt(ex.acc.balance)}</b> USDT
+        Available: <b>{fmt(ex.acc.balance)}</b> demo USDT
       </div>
 
       {type === 'limit' && (
@@ -180,8 +181,8 @@ export default function OrderForm({ sym, picked }) {
       </div>
 
       <div className="ls-btns">
-        <button className="btn long" onClick={() => submit('long')}>Buy / Long</button>
-        <button className="btn short" onClick={() => submit('short')}>Sell / Short</button>
+        <button className="btn long" onClick={() => submit('long')}>Buy / Long <small>(demo)</small></button>
+        <button className="btn short" onClick={() => submit('short')}>Sell / Short <small>(demo)</small></button>
       </div>
 
       {!reduceOnly && (

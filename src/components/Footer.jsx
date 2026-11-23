@@ -10,6 +10,7 @@ export default function Footer() {
             A perpetual-futures trading playground with real-time market prices and demo funds.
             Practice strategies without risking real money.
           </p>
+          <a className="footer-social" href="https://t.me/pepewcoin" target="_blank" rel="noopener noreferrer">✈ Join our Telegram</a>
         </div>
         <div>
           <h4>Products</h4>

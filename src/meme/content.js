@@ -55,7 +55,7 @@ export const STORY = [
     title: 'The Swamp Exchange',
     mood: 'diamond',
     scene: 'lab',
-    text: 'W built a practice pond with real market prices and fake flies. Tadpoles could leap at 125x, set stop losses and even bend the price with the ancient Lily Lever — losing nothing but their pride.',
+    text: 'W built a practice pond with real market prices and fake flies. Tadpoles could leap at 125x, set stop losses and study every candle — losing nothing but their pride.',
     bubble: 'Diamond webs only. 💎',
   },
   {
@@ -93,7 +93,7 @@ export const ROADMAP = [
       ['Swamp Exchange: demo perpetual futures', true],
       ['11 pairs with real-time market prices', true],
       ['Market, Limit, Stop orders + TP/SL', true],
-      ['The Lily Lever (price control lab)', true],
+      ['Stats: win rate, profit factor, equity curve', true],
     ],
   },
   {
@@ -139,7 +139,7 @@ export const FAQ = [
   ['Is the money on the exchange real?', 'No. Every balance is demo USDT. Prices follow the real market so practice feels real, but you can never win or lose real money here.'],
   ['What does the W stand for?', 'Wise, after Wally’s vow in the mud. Some frogs say it stands for WAGMI. Some say Wen. All are correct.'],
   ['Why a frog?', 'Frogs leap, frogs croak and frogs survive in the swamp. Also, have you ever seen a sad frog after practicing with stop losses? Exactly.'],
-  ['Can the price really be controlled?', 'On the demo exchange, yes — that is the Lily Lever. It exists so you can rehearse pumps, dumps and liquidations safely. Real markets cannot be controlled like this.'],
+  ['Are the prices real?', 'Yes. The demo exchange follows live market prices second by second. Only the money is fake: every balance is demo USDT.'],
   ['Is this financial advice?', 'Absolutely not. This is a meme, a game and a classroom. Always do your own research.'],
 ];
 
@@ -179,9 +179,9 @@ export const LITEPAPER = [
   },
   {
     id: 'lever',
-    title: '4. The Lily Lever',
+    title: '4. Real market, demo money',
     blocks: [
-      ['p', 'Unique to WPEPE, the Lily Lever lets a frog bend the demo price: trend up or down, drive it to a target, pump, dump, create wicks or hunt the liquidation price. Frogs use it to rehearse their worst day before it happens. One click on “Reset to real price” returns the swamp to the real market.'],
+      ['p', 'Every price on the Swamp Exchange comes from the live market. Nothing is simulated or adjusted, so the practice feels exactly like the real thing: real volatility, real wicks, real liquidations. The only difference is the money — every balance is demo USDT, so a mistake costs nothing.'],
     ],
   },
   {
@@ -224,7 +224,7 @@ export const LITEPAPER = [
     id: 'risks',
     title: '10. Risks & disclaimer',
     blocks: [
-      ['p', 'WPEPE is an educational meme project. Nothing in this litepaper is financial, investment or legal advice. The exchange uses demo funds only. Real trading with leverage can cause the loss of all deposited funds. Prices shown on the demo exchange may be deliberately modified with the Lily Lever and must never be used as a reference for real trades.'],
+      ['p', 'WPEPE is an educational meme project. Nothing in this litepaper is financial, investment or legal advice. The exchange uses demo funds only. Real trading with leverage can cause the loss of all deposited funds. Prices on the demo exchange follow public market data and may be delayed or interrupted; they must not be used as the reference for real trades.'],
     ],
   },
 ];

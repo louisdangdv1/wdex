@@ -21,7 +21,7 @@ practice again, and built the **Swamp Exchange**: real market prices, fake flies
 | **Litepaper** `/whitepaper` | 10-section litepaper with sticky table of contents, embedded tokenomics and roadmap, print / save as PDF |
 | **Home** `/app` | Hero, live ticker, Hot / Top gainers / Top volume, market pulse (global market cap, BTC dominance, Fear & Greed), latest news, coin ↔ USDT/VND converter, announcements, academy preview |
 | **Markets** `/markets` | All pairs with 24h sparklines, sorting, favourites ⭐, gainers/losers, 30-day Fear & Greed history |
-| **Trade** `/trade/BTCUSDT` | The futures exchange (chart, order book, order form, price control, positions) |
+| **Trade** `/trade/BTCUSDT` | The DEMO futures exchange (chart, order book, order form, positions). Prices always follow the live market |
 | **News** `/news` | Crypto headlines from CoinDesk, Cointelegraph, Decrypt, CryptoSlate and Bitcoin Magazine. Today / This week / All, daily digest, weekly stats, topic and source filters, search, auto-refresh every 5 min |
 | **Academy** `/learn` | Original guides: perpetuals, leverage, liquidation, funding, order types, TP/SL, candlesticks, indicators, risk management, news |
 
@@ -76,29 +76,6 @@ directly from the browser. In development, Vite serves the same function locally
 
 ---
 
-## 🎛 Price Control
-
-The exchange price is `real price × offset factor`. Changing the trend only changes the offset, so the
-price still moves with the real market, just shifted up or down.
-
-| Control | What it does |
-|---|---|
-| 🌐 Real price | Follow the real market (offset is kept if one was applied) |
-| 📈 Up / 📉 Down | Trend the price up or down at the chosen speed |
-| 🎯 Target + **Go** | Move the price gradually to a level you enter (shows ETA) |
-| 🔄 **Reset to real price** | Snap back to the real price instantly |
-| ↩ **Ease back** | Return to the real price gradually |
-| Trend speed | 0.1 – 30% per minute |
-| Extra noise | Additional volatility while the price is controlled |
-| Instant pump / dump | ±1, 2, 5, 10% jump |
-| Wick ⬆ / ⬇ | Spike the price 2% or 5% and revert after ~0.7s |
-| 💥 Hunt liq. / 🛑 Hit SL / 💰 Hit TP | Drive the price to the open position's level |
-| Funding rate | Set -0.5% … 0.5%, or settle funding now |
-| ⏸ Freeze price | Stop the price completely |
-| 🔄 Reset all pairs | Return every pair to its real price |
-
----
-
 ## 🛠 Tech stack
 
 - [React 18](https://react.dev) + [Vite 5](https://vitejs.dev)
@@ -144,7 +121,6 @@ wdex/
         ├── Chart.jsx            # Candles, volume, indicators, price lines
         ├── OrderBook.jsx        # Order book + recent trades
         ├── OrderForm.jsx        # Order entry
-        ├── PriceControl.jsx     # 🎛 Price Control panel
         ├── BottomTabs.jsx       # Positions, orders, history, alerts
         ├── Stats.jsx            # Statistics + equity curve
         └── Toasts.jsx           # Notifications

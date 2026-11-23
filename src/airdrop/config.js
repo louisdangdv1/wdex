@@ -6,7 +6,7 @@
 /** Official links. Leave empty until the channel exists: the task shows "soon". */
 export const SOCIAL = {
   x: '', // e.g. 'https://x.com/wpepe'
-  telegram: '', // e.g. 'https://t.me/wpepe'
+  telegram: 'https://t.me/pepewcoin',
   post: '', // e.g. the launch post to repost
 };
 

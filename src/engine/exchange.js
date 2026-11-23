@@ -38,7 +38,6 @@ export const MMR = 0.005; // maintenance margin rate
 export const START_BALANCE = 10000;
 
 const TICK_MS = 250;
-const TICKS_PER_MIN = 60000 / TICK_MS;
 const MAX_1S = 7200; // 2 hours of 1s candles
 const MAX_1M = 4320; // 3 days of 1m candles
 const STORE_KEY = 'vibedex-demo-v1';
@@ -50,7 +49,6 @@ const WS_URLS = ['wss://data-stream.binance.vision/stream', 'wss://stream.binanc
 const FUNDING_MS = 8 * 3600 * 1000; // funding every 8 hours (00:00, 08:00, 16:00 UTC)
 export const nextFundingTime = (now = Date.now()) => Math.floor(now / FUNDING_MS) * FUNDING_MS + FUNDING_MS;
 
-const moveToward =(a, b, step) => (a < b ? Math.min(a + step, b) : Math.max(a - step, b));
 const toCandles = (rows) =>
   rows.map((r) => ({ time: r[0] / 1000, open: +r[1], high: +r[2], low: +r[3], close: +r[4], volume: +r[7] }));
 
@@ -172,7 +170,7 @@ export const upnl = (pos, price) => (price - pos.entry) * pos.qty * (pos.side ==
 
 const freshAccount = () => ({ balance: START_BALANCE, positions: {}, orders: [], history: [], nextId: 1, equityHist: [] });
 // k = offset factor: exchange price = real price × k  (k = 1 means exactly the real price)
-const defaultCtrl = (price) => ({ mode: 'live', speed: 3, vol: 0, target: price, paused: false, k: 1, funding: 0.01 });
+export const FUNDING_RATE = 0.01; // % paid every 8 hours
 
 function loadState() {
   try {
@@ -207,11 +205,8 @@ class Exchange {
     for (const sym of SYMBOLS) {
       const p = s?.prices?.[sym] ?? MARKETS[sym].price;
       this.mk[sym] = buildMarket(sym, p);
-      const c = { ...defaultCtrl(p), ...(s?.ctrl?.[sym] || {}) };
-      if (!['live', 'up', 'down', 'target', 'revert'].includes(c.mode)) c.mode = 'live';
-      if (!(c.k > 0)) c.k = 1;
-      this.ctrl[sym] = c;
-      this.real[sym] = p / c.k;
+      this.ctrl[sym] = { funding: FUNDING_RATE };
+      this.real[sym] = p;
     }
     this.feed = 'connecting'; // connecting | live | offline
     this.lastMsg = 0;
@@ -251,7 +246,6 @@ class Exchange {
     const older = await fetchJson(`/klines?symbol=${sym}&interval=1m&limit=1000&endTime=${recent[0][0] - 1}`).catch(() => []);
     const sec = await fetchJson(`/klines?symbol=${sym}&interval=1s&limit=1000`).catch(() => null);
     const m = this.mk[sym];
-    const c = this.ctrl[sym];
     m.c1m = toCandles(older.concat(recent));
     if (sec?.length) {
       m.c1s = toCandles(sec);
@@ -266,7 +260,7 @@ class Exchange {
       const lastT = m.c1s[m.c1s.length - 1].time * 1000;
       if (lastT > Date.now() + this.clockOffset) this.clockOffset = lastT - Date.now();
     }
-    const np = roundTo(this.real[sym] * c.k, MARKETS[sym].dp);
+    const np = roundTo(this.real[sym], MARKETS[sym].dp);
     m.price = np;
     m.book = genBook(np, MARKETS[sym]);
     m.realHistory = true;
@@ -333,7 +327,7 @@ class Exchange {
       for (const s of SYMBOLS) prices[s] = this.mk[s].price;
       localStorage.setItem(
         STORE_KEY,
-        JSON.stringify({ acc: this.acc, prices, ctrl: this.ctrl, alerts: this.alerts, sound: this.sound }),
+        JSON.stringify({ acc: this.acc, prices, alerts: this.alerts, sound: this.sound }),
       );
     } catch { /* ignore */ }
   }
@@ -353,31 +347,12 @@ class Exchange {
   tick() {
     const sec = Math.floor(this.now() / 1000);
     for (const sym of SYMBOLS) {
-      const c = this.ctrl[sym];
-      const m = this.mk[sym];
       const cfg = MARKETS[sym];
       // no real feed -> simulate so the exchange keeps running
       if (this.feed !== 'live') this.real[sym] *= 1 + 0.0001 * randn();
-      const real = this.real[sym];
-
-      if (c.paused) {
-        c.k = m.price / real; // keep exchange price frozen
-      } else {
-        const step = c.speed / 100 / TICKS_PER_MIN;
-        if (c.mode === 'up') c.k *= 1 + step;
-        else if (c.mode === 'down') c.k *= 1 - step;
-        else if (c.mode === 'target') c.k = moveToward(c.k, c.target / real, c.k * step);
-        else if (c.mode === 'revert') {
-          c.k = moveToward(c.k, 1, Math.max(c.k * step, 0.0002));
-          if (c.k === 1) {
-            c.mode = 'live';
-            this.toast(`${sym} is back to the real price`, 'ok');
-          }
-        }
-        if (c.mode !== 'live' && c.vol > 0) c.k *= 1 + 0.00012 * c.vol * randn();
-        const np = Math.max(10 ** -cfg.dp, roundTo(real * c.k, cfg.dp));
-        this.setPrice(sym, np, sec);
-      }
+      // demo exchange price always follows the real market price
+      const np = Math.max(10 ** -cfg.dp, roundTo(this.real[sym], cfg.dp));
+      this.setPrice(sym, np, sec);
       this.process(sym);
     }
     const now = Date.now();
@@ -415,54 +390,6 @@ class Exchange {
     }
     if (m.trades.length > 40) m.trades.length = 40;
     m.book = genBook(np, cfg);
-  }
-
-  /** Price control: mode, speed, volatility, target, pause */
-  setCtrl(sym, patch) {
-    Object.assign(this.ctrl[sym], patch);
-    this.save();
-    this.emit();
-  }
-
-  /** Instant price shock (pump/dump) in % */
-  shock(sym, pct) {
-    const c = this.ctrl[sym];
-    c.k *= 1 + pct / 100;
-    if (c.mode === 'revert') c.mode = 'live';
-    this.applyNow(sym);
-  }
-
-  /** Instantly reset to the real price */
-  resetToReal(sym) {
-    Object.assign(this.ctrl[sym], { k: 1, mode: 'live', paused: false });
-    this.applyNow(sym);
-    this.toast(`🔄 ${sym} reset to real price ${this.mk[sym].price}`, 'ok');
-    this.save();
-  }
-
-  /** Gradually return to the real price (at trend speed) */
-  revertToReal(sym) {
-    Object.assign(this.ctrl[sym], { mode: 'revert', paused: false });
-    this.save();
-    this.emit();
-  }
-
-  /** Reset all pairs to the real price */
-  resetAllToReal() {
-    for (const s of SYMBOLS) {
-      Object.assign(this.ctrl[s], { k: 1, mode: 'live', paused: false });
-      this.applyNow(s);
-    }
-    this.toast('🔄 All pairs reset to real price', 'ok');
-    this.save();
-  }
-
-  applyNow(sym) {
-    const cfg = MARKETS[sym];
-    const np = Math.max(10 ** -cfg.dp, roundTo(this.real[sym] * this.ctrl[sym].k, cfg.dp));
-    this.setPrice(sym, np, Math.floor(this.now() / 1000));
-    this.process(sym);
-    this.emit();
   }
 
   stats24(sym) {
@@ -743,37 +670,6 @@ class Exchange {
     this.alerts = this.alerts.filter((a) => a.id !== id);
     this.save();
     this.emit();
-  }
-
-  // ================= ADVANCED CONTROL TOOLS =================
-  /** Create a wick: spike price by pct% then return after ~0.7s */
-  wick(sym, pct) {
-    const c = this.ctrl[sym];
-    const f = 1 + pct / 100;
-    c.k *= f;
-    this.applyNow(sym);
-    setTimeout(() => {
-      c.k /= f;
-      this.applyNow(sym);
-    }, 700);
-  }
-
-  /** Move price to the liquidation / SL / TP level of the open position */
-  hunt(sym, what) {
-    const pos = this.acc.positions[sym];
-    if (!pos) return this.toast(`No ${sym} position to hunt`, 'err');
-    const long = pos.side === 'long';
-    let target;
-    if (what === 'liq') target = liqPrice(pos) * (long ? 0.998 : 1.002);
-    else if (what === 'sl') {
-      if (pos.sl == null) return this.toast('Position has no SL set', 'err');
-      target = pos.sl * (long ? 0.999 : 1.001);
-    } else {
-      if (pos.tp == null) return this.toast('Position has no TP set', 'err');
-      target = pos.tp * (long ? 1.001 : 0.999);
-    }
-    this.setCtrl(sym, { mode: 'target', target: roundTo(target, MARKETS[sym].dp), paused: false });
-    this.toast(`🎯 Moving ${sym} price to ${target.toFixed(MARKETS[sym].dp)}`, 'info');
   }
 
   setSound(on) {

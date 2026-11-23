@@ -8,6 +8,7 @@ import { ex, SYMBOLS, MARKETS } from '../engine/exchange';
 import { fmt, fmtPct, cls } from '../utils';
 import WalletButton from '../wallet/WalletButton';
 import { AirdropBanner, RecentJoinToasts, AirdropWin, AirdropSection } from '../airdrop/fomo';
+import { SOCIAL } from '../airdrop/config';
 
 // ---------------------------------------------------------------- window contents
 function HeroWin({ go }) {
@@ -229,7 +230,7 @@ export default function Landing() {
       <div className="menubar">
         <Link to="/" className="mb-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>🐸 WPEPE</Link>
         <span className="mb-menu hide-sm">File</span>
-        <span className="mb-menu hide-sm">Swamp</span>
+        <a className="mb-menu hide-sm" href={SOCIAL.telegram} target="_blank" rel="noopener noreferrer">✈ Telegram</a>
         <span className="mb-menu hide-sm" onClick={rain}>Ribbit</span>
         <a className="mb-menu hide-sm" href="#legend">Lore</a>
         <a className="mb-menu hide-sm" href="#tokenomics">Tokenomics</a>
@@ -345,7 +346,7 @@ export default function Landing() {
             ['📡', 'Real prices', 'Live market prices, every second. The swamp never sleeps.'],
             ['🪰', 'Fake flies', '10,000 demo USDT. Get rekt for free, learn for real.'],
             ['⚡', '125x leaps', 'Market, limit, stop, TP/SL. Leap like a pro frog.'],
-            ['🎚', 'The Lily Lever', 'Bend the demo price. Rehearse every pump and dump.'],
+            ['🧾', 'Pro orders', 'Limit, stop, TP/SL, reduce-only. Trade like the big frogs.'],
             ['📰', 'News Swamp', 'Daily & weekly crypto headlines in one pond.'],
             ['🎓', 'Frog Academy', 'From tadpole to trader in ten short guides.'],
           ].map(([i, t, d], k) => (
@@ -408,11 +409,15 @@ export default function Landing() {
 
       <section className="meme-section community">
         <h2 className="meme-h2">📣 Join the croak</h2>
-        <p className="meme-sub">Official community channels are coming soon. Until then: practice, meme, repeat.</p>
+        <p className="meme-sub">Croak with the frens, get airdrop news first and share your memes.</p>
         <div className="socials">
-          {['𝕏 Twitter', '✈ Telegram', '💬 Discord'].map((s) => (
-            <span key={s} className="social-btn" title="Coming soon">{s} <small>soon</small></span>
-          ))}
+          {[['✈ Telegram', SOCIAL.telegram], ['𝕏 Twitter', SOCIAL.x], ['💬 Discord', '']].map(([s, href]) =>
+            href ? (
+              <a key={s} className="social-btn live" href={href} target="_blank" rel="noopener noreferrer">{s} <small className="join">join</small></a>
+            ) : (
+              <span key={s} className="social-btn" title="Coming soon">{s} <small>soon</small></span>
+            ),
+          )}
         </div>
         <div className="final-cta">
           <Frog mood="diamond" size={140} />

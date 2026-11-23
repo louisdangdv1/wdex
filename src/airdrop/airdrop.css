@@ -180,3 +180,13 @@
   .countdown.big .cd-cell b { font-size: 30px; }
   .air-banner .ab-count { display: none; }
 }
+
+/* ---------- demo labels ---------- */
+.demo-strip { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 6px 12px; background: repeating-linear-gradient(135deg, rgba(240, 185, 11, .16) 0 14px, rgba(240, 185, 11, .08) 14px 28px); border-bottom: 1px solid rgba(240, 185, 11, .4); color: #ffe08a; font-size: 12px; text-align: center; flex-wrap: wrap; }
+.demo-tag { display: inline-block; background: #f0b90b; color: #111; font-weight: 900; font-size: 10px; letter-spacing: 1px; padding: 2px 7px; border-radius: 4px; vertical-align: middle; }
+.chip.demo-chip { background: #f0b90b; color: #111; border-color: #f0b90b; font-weight: 800; }
+.ls-btns .btn small { font-weight: 500; opacity: .8; font-size: 11px; }
+.social-btn.live { border-style: solid; border-color: #229ed9; color: #fff; background: #13384d; }
+.social-btn.live:hover { background: #229ed9; }
+.social-btn small.join { background: #229ed9; color: #fff; }
+.footer-social { display: inline-block !important; margin-top: 6px; padding: 6px 12px !important; border-radius: 8px; background: #229ed9; color: #fff !important; font-weight: 700; }

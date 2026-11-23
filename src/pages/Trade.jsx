@@ -5,7 +5,6 @@ import { fmt, fmtPct, fmtCompact, cls } from '../utils';
 import Chart from '../components/Chart';
 import OrderBook from '../components/OrderBook';
 import OrderForm from '../components/OrderForm';
-import PriceControl from '../components/PriceControl';
 import BottomTabs from '../components/BottomTabs';
 import { CoinIcon } from '../components/common';
 
@@ -30,14 +29,12 @@ export default function Trade() {
   const st = ex.stats24(sym);
   const c = ex.ctrl[sym];
 
-  const modeLabel = c.paused
-    ? '⏸ Frozen'
-    : c.mode === 'live' && Math.abs(c.k - 1) > 1e-6
-      ? `🌐 Real price (offset ${((c.k - 1) * 100).toFixed(2)}%)`
-      : { live: '🌐 Real price', up: '📈 Uptrend', down: '📉 Downtrend', target: '🎯 Target', revert: '↩ Returning to real' }[c.mode];
-
   return (
     <>
+      <div className="demo-strip">
+        <span className="demo-tag">DEMO</span>
+        <span>Demo trading with virtual USDT · prices follow the real market · no real money is used</span>
+      </div>
       <nav className="sym-tabs pair-bar">
         {SYMBOLS.map((s) => {
           const ch = ex.stats24(s).change;
@@ -57,7 +54,7 @@ export default function Trade() {
         <section className="panel chart-panel">
           <div className="sym-bar">
             <div className="sym-name">
-              <CoinIcon base={cfg.base} size={22} /> {sym} <small>Perpetual</small>
+              <CoinIcon base={cfg.base} size={22} /> {sym} <small>Perpetual</small> <span className="demo-tag">DEMO</span>
             </div>
             <div className={`sym-price ${m.dir > 0 ? 'up' : 'down'}`}>{fmt(m.price, cfg.dp)}</div>
             <Stat label="24h Change" value={fmtPct(st.change)} className={cls(st.change)} />
@@ -69,7 +66,7 @@ export default function Trade() {
               value={`${c.funding.toFixed(4)}% / ${countdown(ex.nextFunding - Date.now())}`}
               className={c.funding >= 0 ? 'warn' : 'up'}
             />
-            <Stat label="Price mode" value={modeLabel} />
+            <Stat label="Source" value="🌐 Live" />
           </div>
           <Chart sym={sym} iv={iv} setIv={setIv} />
         </section>
@@ -78,7 +75,6 @@ export default function Trade() {
 
         <div className="side-col">
           <OrderForm sym={sym} picked={picked} />
-          <PriceControl sym={sym} />
         </div>
 
         <BottomTabs sym={sym} setSym={setSym} />
